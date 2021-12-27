@@ -137,6 +137,7 @@ class StrokeButtonState extends State<StrokeButton>
                     child: widget.child,
                     builder: (context, child) {
                       return Container(
+                        clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
                             color:
                                 widget.surfaceColor.transform(_animation.value),

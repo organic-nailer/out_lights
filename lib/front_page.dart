@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:out_lights/game_over_page.dart';
 import 'package:out_lights/stroke_button.dart';
 import 'package:out_lights/try_endress_page.dart';
 
@@ -11,6 +12,35 @@ class FrontPage extends StatefulWidget {
 }
 
 class _FrontPageState extends State<FrontPage> {
+  List<bool> buttonStates = [false, false, false];
+  void onClickButton(int index) {
+    setState(() {
+      buttonStates[index] = !buttonStates[index];
+    });
+    if (buttonStates[index]) {
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        switch (index) {
+          case 0:
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const TryEndressPage()));
+            break;
+          case 1:
+            showLicensePage(
+              context: context,
+              applicationName: 'p987', // アプリの名前
+              applicationVersion: '2.0.2.1', // バージョン
+              applicationLegalese: '2020 fastriver_org', // 権利情報
+            );
+            break;
+          case 2:
+            // TODO: implement
+            openUrl("https://fastriver.dev");
+            break;
+        }
+      });
+    }
+  }
+
   bool tryClicked = false;
   @override
   Widget build(BuildContext context) {
@@ -67,17 +97,8 @@ class _FrontPageState extends State<FrontPage> {
                           width: 210,
                           height: 90,
                           child: StrokeButton(
-                              value: tryClicked,
-                              onChanged: (value) async {
-                                setState(() {
-                                  tryClicked = value;
-                                });
-                                Future.delayed(
-                                    const Duration(milliseconds: 500), () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => const TryEndressPage()));
-                                });
-                              },
+                              value: buttonStates[0],
+                              onChanged: (value) => onClickButton(0),
                               offsetForProjection: 10,
                               sideColor: Colors.blueGrey,
                               surfaceColor: ColorTween(
@@ -93,6 +114,8 @@ class _FrontPageState extends State<FrontPage> {
                           width: 210,
                           height: 90,
                           child: StrokeButton(
+                              value: buttonStates[1],
+                              onChanged: (value) => onClickButton(1),
                               offsetForProjection: 10,
                               sideColor: Colors.blueGrey,
                               surfaceColor: ColorTween(
@@ -108,6 +131,8 @@ class _FrontPageState extends State<FrontPage> {
                           width: 210,
                           height: 90,
                           child: StrokeButton(
+                              value: buttonStates[2],
+                              onChanged: (value) => onClickButton(2),
                               offsetForProjection: 10,
                               sideColor: Colors.blueGrey,
                               surfaceColor: ColorTween(

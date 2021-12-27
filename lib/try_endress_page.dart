@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:expanded_grid/expanded_grid.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:out_lights/dialog_game_over.dart';
 import 'package:out_lights/game_over_page.dart';
 import 'package:out_lights/main.dart';
+import 'package:out_lights/question_data.dart';
 import 'package:out_lights/stroke_button.dart';
 import 'package:intl/intl.dart';
 import 'package:out_lights/extention_color.dart';
@@ -18,10 +21,13 @@ class TryEndressPage extends StatefulWidget {
 
 class _TryEndressPageState extends State<TryEndressPage> {
   final timeFormat = NumberFormat("00.0", "ja_JP");
+  final scoreFormat = NumberFormat("0000", "ja_JP");
   List<List<bool>> buttonState = [];
   QuestionData? question;
   int remMs = 0;
   int step = 1;
+  int score = 0;
+  int tapped = 0;
   bool lock = false;
 
   bool gameOver = false;
@@ -51,19 +57,20 @@ class _TryEndressPageState extends State<TryEndressPage> {
         lock = true;
       });
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => const GameOverPage(step: 10, score: 20)));
+          builder: (_) => GameOverPage(step: step, score: score)));
       //GameOverDialog(context).showCustomDialog(10, 20);
     });
   }
 
   /// return: 想定ミリ秒
   int setNewTable() {
-    question = generateQuestion(3);
+    final tableSize = ((-1 + sqrt(1 + 8 * step)) / 2).floor() + 1;
+    question = generateQuestion(tableSize);
     buttonState = [];
     for (var row in question!.table) {
       buttonState.add(row.map((e) => e == 1).toList());
     }
-    return 1 * 1000;
+    return tableSize * 20 * 1000;
   }
 
   void nextGame() {
@@ -75,6 +82,7 @@ class _TryEndressPageState extends State<TryEndressPage> {
   void onTapButton(int index) {
     assert(index >= 0 && index < buttonState.length * buttonState[0].length);
     if (lock) return;
+    tapped++;
     setState(() {
       for (var op in question!.ops) {
         final x = index % buttonState.length + op.dx;
@@ -91,9 +99,16 @@ class _TryEndressPageState extends State<TryEndressPage> {
     // すべて凸の場合
     if (buttonState.every((r) => r.every((c) => !c))) {
       print("Clear");
-      step++;
       _countDownTimer.cancel();
       lock = true;
+      final minTap = question!.getBestSolution().where((e) => e == 1).length;
+      final sizeFactor = log(buttonState.length * buttonState.length) / log(e);
+      score += (max(4.0 - tapped + minTap, 1) *
+              max(sqrt(remMs / 1000.0), 5.0) *
+              sizeFactor)
+          .ceil();
+      tapped = 0;
+      step++;
       Future.delayed(const Duration(milliseconds: 1000), () {
         setState(() {
           for (var row in buttonState) {
@@ -113,86 +128,117 @@ class _TryEndressPageState extends State<TryEndressPage> {
 
   @override
   Widget build(BuildContext context) {
-    final solution = question!.getBestSolution();
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         backgroundColor:
             Colors.black.stackOnTop(Colors.yellow.shade500.withOpacity(0.5)),
-        body: SafeArea(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 700),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 56,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(Icons.arrow_back)),
-                        const Text("Endless")
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 56,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text("ボタンを押して全部黄色にしよう！"),
-                        Text("Time: ${timeFormat.format(remMs / 1000.0)} s")
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                            maxWidth: 140.0 * buttonState.length),
-                        child: AspectRatio(
-                            aspectRatio: 1,
-                            child: ExpandedGrid(
-                              column: buttonState.length,
-                              row: buttonState.length,
-                              children: List.generate(
-                                  buttonState.length * buttonState.length,
-                                  (index) => ExpandedGridContent(
-                                        columnIndex: index % buttonState.length,
-                                        rowIndex: (index / buttonState.length)
-                                            .floor(),
-                                        child: StrokeButton(
-                                          duration: const Duration(
-                                              milliseconds: 1000),
-                                          value: buttonState[
-                                                  (index / buttonState.length)
-                                                      .floor()]
-                                              [index % buttonState.length],
-                                          onChanged: (value) {
-                                            onTapButton(index);
-                                          },
-                                          child: Container(),
-                                          // child: Center(
-                                          //   child: Text(solution[index] == 1
-                                          //       ? "押す"
-                                          //       : "押さない"),
-                                          // ),
-                                          surfaceColor: ColorTween(
-                                              begin: Colors.black.stackOnTop(
-                                                  Colors.yellow
-                                                      .withOpacity(0.8)),
-                                              end: Colors.brown.shade700),
-                                        ),
-                                      )),
-                            )),
+        body: DefaultTextStyle.merge(
+          style: GoogleFonts.shareTechMono(),
+          child: SafeArea(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 700),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 56,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(Icons.arrow_back)),
+                          const Text("Endless")
+                        ],
                       ),
                     ),
-                  )
-                ],
+                    SizedBox(
+                      height: 100,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Time:",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            timeFormat.format(remMs / 1000.0),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 50, fontWeight: FontWeight.bold),
+                          ),
+                          const Text(
+                            " s",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          const Text(
+                            "Score:",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            timeFormat.format(score),
+                            style: const TextStyle(
+                                fontSize: 50, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                              maxWidth: 140.0 * buttonState.length),
+                          child: AspectRatio(
+                              aspectRatio: 1,
+                              child: ExpandedGrid(
+                                column: buttonState.length,
+                                row: buttonState.length,
+                                children: List.generate(
+                                    buttonState.length * buttonState.length,
+                                    (index) => ExpandedGridContent(
+                                          columnIndex:
+                                              index % buttonState.length,
+                                          rowIndex: (index / buttonState.length)
+                                              .floor(),
+                                          child: StrokeButton(
+                                            duration: const Duration(
+                                                milliseconds: 1000),
+                                            value: buttonState[
+                                                    (index / buttonState.length)
+                                                        .floor()]
+                                                [index % buttonState.length],
+                                            onChanged: (value) {
+                                              onTapButton(index);
+                                            },
+                                            offsetForProjection: min(
+                                                50 / buttonState.length, 10),
+                                            child: Container(),
+                                            // child: Center(
+                                            //   child: Text(solution[index] == 1
+                                            //       ? "押す"
+                                            //       : "押さない"),
+                                            // ),
+                                            surfaceColor: ColorTween(
+                                                begin: Colors.black.stackOnTop(
+                                                    Colors.yellow
+                                                        .withOpacity(0.8)),
+                                                end: Colors.brown.shade700),
+                                          ),
+                                        )),
+                              )),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

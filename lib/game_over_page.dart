@@ -218,8 +218,9 @@ class _GameOverPageState extends State<GameOverPage> {
                             value: buttonStates[7],
                             onChanged: (_) => onClickButton(7),
                             surfaceColor: ColorTween(
-                                begin: Colors.yellow.shade800,
-                                end: Colors.brown),
+                              begin: const Color(0xFF60807E),
+                              end: const Color(0xFF60807E),
+                            ),
                             child: Image.asset("image/fastriver.png"),
                           ),
                         ),
@@ -241,8 +242,8 @@ class _GameOverPageState extends State<GameOverPage> {
                             value: buttonStates[9],
                             onChanged: (_) => onClickButton(9),
                             surfaceColor: ColorTween(
-                                begin: Colors.yellow.shade800,
-                                end: Colors.brown),
+                                begin: Colors.green.shade800,
+                                end: Colors.green.shade800),
                             child: Image.asset("image/p987.png"),
                           ),
                         ),
