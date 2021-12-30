@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:expanded_grid/expanded_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:out_lights/fast_analytics.dart';
 import 'package:out_lights/game_over_page.dart';
 import 'package:out_lights/question_data.dart';
 import 'package:out_lights/stroke_button.dart';
@@ -11,14 +12,14 @@ import 'package:intl/intl.dart';
 import 'package:out_lights/extention_color.dart';
 import 'package:out_lights/table_data.dart';
 
-class TryEndressPage extends StatefulWidget {
-  const TryEndressPage({Key? key}) : super(key: key);
+class TryEndlessPage extends StatefulWidget {
+  const TryEndlessPage({Key? key}) : super(key: key);
 
   @override
-  _TryEndressPageState createState() => _TryEndressPageState();
+  _TryEndlessPageState createState() => _TryEndlessPageState();
 }
 
-class _TryEndressPageState extends State<TryEndressPage> {
+class _TryEndlessPageState extends State<TryEndlessPage> {
   final timeFormat = NumberFormat("00.0", "ja_JP");
   final scoreFormat = NumberFormat("0000", "ja_JP");
   TableData<bool?> buttonState = [];
@@ -40,6 +41,7 @@ class _TryEndressPageState extends State<TryEndressPage> {
         remMs = value;
       });
     });
+    FastAnalytics.screenOpened("TryEndlessPage");
   }
 
   @override
@@ -89,6 +91,7 @@ class _TryEndressPageState extends State<TryEndressPage> {
     for (var row in question!.table) {
       buttonState.add(row.map((e) => e == null ? null : e == 1).toList());
     }
+    FastAnalytics.sendStartStep(step, tableSize, lost, question!.opsName);
     return tableSize * 20 * 1000;
   }
 

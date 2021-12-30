@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:out_lights/extention_color.dart';
+import 'package:out_lights/fast_analytics.dart';
 import 'package:out_lights/front_page.dart';
 import 'package:out_lights/stroke_button.dart';
 import 'package:out_lights/try_endress_page.dart';
@@ -36,6 +37,8 @@ class _GameOverPageState extends State<GameOverPage> {
   void initState() {
     super.initState();
     buttonStates = List.generate(10, (index) => false);
+    FastAnalytics.screenOpened("GameOverPage");
+    FastAnalytics.sendGameOver(widget.step, widget.score);
   }
 
   void onClickButton(int index) {
@@ -49,7 +52,7 @@ class _GameOverPageState extends State<GameOverPage> {
         switch (index) {
           case 4:
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const TryEndressPage()));
+                MaterialPageRoute(builder: (_) => const TryEndlessPage()));
             break;
           case 5:
             tweetScore(widget.step, widget.score);

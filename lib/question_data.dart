@@ -7,8 +7,9 @@ import 'package:out_lights/table_data.dart';
 class QuestionData {
   final TableData<int?> table;
   final List<RelativeOpData> ops;
+  final String opsName;
   final List<List<int>> solutions;
-  QuestionData(this.table, this.ops, this.solutions);
+  QuestionData(this.table, this.ops, this.opsName, this.solutions);
 
   bool sorted = false;
 
@@ -23,11 +24,13 @@ class QuestionData {
 
 QuestionData? generateSpecificQuestion(int step) {
   List<RelativeOpData> ops = RelativeOps.square;
+  String opsName = "square";
   final TableData<int> table;
   if (step == 4) {
     table = StaticTables.four;
   } else if (step == 12) {
     ops = RelativeOps.h;
+    opsName = "h";
     table = StaticTables.oneTwo;
   } else if (step == 20) {
     table = StaticTables.twoThousand22;
@@ -44,6 +47,7 @@ QuestionData? generateSpecificQuestion(int step) {
   return QuestionData(
     table,
     ops,
+    opsName,
     solutions.map((e) => e.expand((element) => element).toList()).toList(),
   );
 }
@@ -52,7 +56,7 @@ QuestionData generateQuestion(int size, int lost) {
   assert(size >= 2);
   final ops = RelativeOps.getRandomly(size < 5 ? 3 : 6);
   final lostCells = generateLostTable(size, lost);
-  final opMatrix = generateOpMatrix(size, ops, lostCells);
+  final opMatrix = generateOpMatrix(size, ops.ops, lostCells);
   while (true) {
     final table = generateTable(size, lostCells);
     if (table.every((r) => r.every((c) => c == 0 || c == null))) continue;
@@ -77,7 +81,8 @@ QuestionData generateQuestion(int size, int lost) {
       }
       return QuestionData(
         table,
-        ops,
+        ops.ops,
+        ops.name,
         flattenedSolutions,
       );
     }
@@ -139,21 +144,25 @@ class RelativeOpData {
 }
 
 class RelativeOps {
-  static List<RelativeOpData> getRandomly(int number) {
+  final List<RelativeOpData> ops;
+  final String name;
+  const RelativeOps(this.ops, this.name);
+
+  static RelativeOps getRandomly(int number) {
     switch (Random().nextInt(number)) {
       case 0:
       case 1:
-        return square;
+        return const RelativeOps(square, "square");
       case 2:
-        return plus;
+        return const RelativeOps(plus, "plus");
       case 3:
-        return x;
+        return const RelativeOps(x, "x");
       case 4:
-        return ripple;
+        return const RelativeOps(ripple, "ripple");
       case 5:
-        return h;
+        return const RelativeOps(h, "h");
     }
-    return square;
+    return const RelativeOps(square, "square");
   }
 
   /// o,o,o

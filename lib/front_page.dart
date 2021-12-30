@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:out_lights/fast_analytics.dart';
 import 'package:out_lights/game_over_page.dart';
 import 'package:out_lights/stroke_button.dart';
 import 'package:out_lights/try_endress_page.dart';
@@ -13,6 +14,13 @@ class FrontPage extends StatefulWidget {
 
 class _FrontPageState extends State<FrontPage> {
   List<bool> buttonStates = [false, false, false];
+
+  @override
+  void initState() {
+    super.initState();
+    FastAnalytics.screenOpened("FrontPage");
+  }
+
   void onClickButton(int index) {
     setState(() {
       buttonStates[index] = !buttonStates[index];
@@ -22,7 +30,7 @@ class _FrontPageState extends State<FrontPage> {
         switch (index) {
           case 0:
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const TryEndressPage()));
+                MaterialPageRoute(builder: (_) => const TryEndlessPage()));
             break;
           case 1:
             showLicensePage(
