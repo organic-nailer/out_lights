@@ -158,120 +158,121 @@ class _TryEndlessPageState extends State<TryEndlessPage> {
         body: DefaultTextStyle.merge(
           style: GoogleFonts.shareTechMono(),
           child: SafeArea(
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 700),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 56,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          IconButton(
-                              onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (_) => GameOverPage(
-                                            step: step, score: score)));
-                              },
-                              icon: const Icon(Icons.close)),
-                          const Text("Endless")
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 100,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Time:",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Text(
-                            timeFormat.format(remMs / 1000.0),
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 50, fontWeight: FontWeight.bold),
-                          ),
-                          const Text(
-                            " s",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          const Text(
-                            "Score:",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Text(
-                            timeFormat.format(score),
-                            style: const TextStyle(
-                                fontSize: 50, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                              maxWidth: 140.0 * buttonState.length),
-                          child: AspectRatio(
-                              aspectRatio: 1,
-                              child: ExpandedGrid(
-                                column: buttonState.length,
-                                row: buttonState.length,
-                                children: List.generate(
-                                    buttonState.length * buttonState.length,
-                                    (index) => ExpandedGridContent(
-                                          columnIndex:
-                                              index % buttonState.length,
-                                          rowIndex: (index / buttonState.length)
-                                              .floor(),
-                                          child: buttonState.index(index) ==
-                                                  null
-                                              ? Container()
-                                              : StrokeButton(
-                                                  duration: const Duration(
-                                                      milliseconds: 1000),
-                                                  value: buttonState[
-                                                      (index /
-                                                              buttonState
-                                                                  .length)
-                                                          .floor()][index %
-                                                      buttonState.length]!,
-                                                  onChanged: (value) {
-                                                    onTapButton(index);
-                                                  },
-                                                  offsetForProjection: min(
-                                                      50 / buttonState.length,
-                                                      10),
-                                                  child: Container(),
-                                                  // child: Center(
-                                                  //   child: Text(solution[index] == 1
-                                                  //       ? "押す"
-                                                  //       : "押さない"),
-                                                  // ),
-                                                  surfaceColor: ColorTween(
-                                                      begin: Colors.black
-                                                          .stackOnTop(Colors
-                                                              .yellow
-                                                              .withOpacity(
-                                                                  0.8)),
-                                                      end: Colors
-                                                          .brown.shade700),
-                                                ),
-                                        )),
-                              )),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 700),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 56,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  _countDownTimer.cancel();
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (_) => GameOverPage(
+                                              step: step, score: score)));
+                                },
+                                icon: const Icon(Icons.close)),
+                            const Text("Endless")
+                          ],
                         ),
                       ),
-                    )
-                  ],
+                      SizedBox(
+                        height: 100,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              timeFormat.format(remMs / 1000.0),
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontSize: 50, fontWeight: FontWeight.bold),
+                            ),
+                            const Text(
+                              " s",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            const Text(
+                              "Score:",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Text(
+                              scoreFormat.format(score),
+                              style: const TextStyle(
+                                  fontSize: 50, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                                maxWidth: 140.0 * buttonState.length),
+                            child: AspectRatio(
+                                aspectRatio: 1,
+                                child: ExpandedGrid(
+                                  column: buttonState.length,
+                                  row: buttonState.length,
+                                  children: List.generate(
+                                      buttonState.length * buttonState.length,
+                                      (index) => ExpandedGridContent(
+                                            columnIndex:
+                                                index % buttonState.length,
+                                            rowIndex:
+                                                (index / buttonState.length)
+                                                    .floor(),
+                                            child: buttonState.index(index) ==
+                                                    null
+                                                ? Container()
+                                                : StrokeButton(
+                                                    duration: const Duration(
+                                                        milliseconds: 1000),
+                                                    value: buttonState[
+                                                        (index /
+                                                                buttonState
+                                                                    .length)
+                                                            .floor()][index %
+                                                        buttonState.length]!,
+                                                    onChanged: (value) {
+                                                      onTapButton(index);
+                                                    },
+                                                    offsetForProjection: min(
+                                                        50 / buttonState.length,
+                                                        10),
+                                                    child: Container(),
+                                                    // child: Center(
+                                                    //   child: Text(solution[index] == 1
+                                                    //       ? "押す"
+                                                    //       : "押さない"),
+                                                    // ),
+                                                    surfaceColor: ColorTween(
+                                                        begin: Colors.black
+                                                            .stackOnTop(Colors
+                                                                .yellow
+                                                                .withOpacity(
+                                                                    0.8)),
+                                                        end: Colors
+                                                            .brown.shade700),
+                                                  ),
+                                          )),
+                                )),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

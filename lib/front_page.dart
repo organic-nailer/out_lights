@@ -35,14 +35,14 @@ class _FrontPageState extends State<FrontPage> {
           case 1:
             showLicensePage(
               context: context,
-              applicationName: 'p987', // アプリの名前
-              applicationVersion: '2.0.2.1', // バージョン
-              applicationLegalese: '2020 fastriver_org', // 権利情報
+              applicationName: 'out lights', // アプリの名前
+              applicationVersion: '2.0.2.2', // バージョン
+              applicationLegalese: '2022 fastriver_org', // 権利情報
             );
             break;
           case 2:
-            // TODO: implement
-            openUrl("https://fastriver.dev");
+            openUrl(
+                "https://twitter.com/intent/tweet?text=%E3%82%A2%E3%82%A6%5B%E3%83%88%E3%83%A9%5D%E3%82%A4%E3%83%84(2022)%0Afrom%20%40fastriver_org%0Ahttps%3A%2F%2Ftora.fastriver.dev");
             break;
         }
       });
