@@ -4,13 +4,12 @@ import 'dart:math';
 import 'package:expanded_grid/expanded_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:out_lights/dialog_game_over.dart';
 import 'package:out_lights/game_over_page.dart';
-import 'package:out_lights/main.dart';
 import 'package:out_lights/question_data.dart';
 import 'package:out_lights/stroke_button.dart';
 import 'package:intl/intl.dart';
 import 'package:out_lights/extention_color.dart';
+import 'package:out_lights/table_data.dart';
 
 class TryEndressPage extends StatefulWidget {
   const TryEndressPage({Key? key}) : super(key: key);
@@ -22,7 +21,7 @@ class TryEndressPage extends StatefulWidget {
 class _TryEndressPageState extends State<TryEndressPage> {
   final timeFormat = NumberFormat("00.0", "ja_JP");
   final scoreFormat = NumberFormat("0000", "ja_JP");
-  List<List<bool>> buttonState = [];
+  TableData<bool?> buttonState = [];
   QuestionData? question;
   int remMs = 0;
   int step = 1;
@@ -64,11 +63,31 @@ class _TryEndressPageState extends State<TryEndressPage> {
 
   /// return: 想定ミリ秒
   int setNewTable() {
-    final tableSize = ((-1 + sqrt(1 + 8 * step)) / 2).floor() + 1;
-    question = generateQuestion(tableSize);
+    final int tableSize;
+    if (step <= 2) {
+      tableSize = 2;
+    } else if (step <= 5) {
+      tableSize = 3;
+    } else if (step <= 10) {
+      tableSize = 4;
+    } else if (step <= 13) {
+      tableSize = 5;
+    } else if (step <= 19) {
+      tableSize = 6;
+    } else {
+      tableSize = 9;
+    }
+    final int lost;
+    if (tableSize <= 4) {
+      lost = 0;
+    } else {
+      lost = Random().nextInt((tableSize * tableSize / 4).floor());
+    }
+    question =
+        generateSpecificQuestion(step) ?? generateQuestion(tableSize, lost);
     buttonState = [];
     for (var row in question!.table) {
-      buttonState.add(row.map((e) => e == 1).toList());
+      buttonState.add(row.map((e) => e == null ? null : e == 1).toList());
     }
     return tableSize * 20 * 1000;
   }
@@ -93,11 +112,11 @@ class _TryEndressPageState extends State<TryEndressPage> {
             y >= buttonState.length) {
           continue;
         }
-        buttonState[y][x] = !buttonState[y][x];
+        buttonState[y][x] = !buttonState[y][x]!;
       }
     });
     // すべて凸の場合
-    if (buttonState.every((r) => r.every((c) => !c))) {
+    if (buttonState.every((r) => r.every((c) => c == null || !c))) {
       print("Clear");
       _countDownTimer.cancel();
       lock = true;
@@ -148,9 +167,12 @@ class _TryEndressPageState extends State<TryEndressPage> {
                         children: [
                           IconButton(
                               onPressed: () {
-                                Navigator.pop(context);
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (_) => GameOverPage(
+                                            step: step, score: score)));
                               },
-                              icon: const Icon(Icons.arrow_back)),
+                              icon: const Icon(Icons.close)),
                           const Text("Endless")
                         ],
                       ),
@@ -208,30 +230,39 @@ class _TryEndressPageState extends State<TryEndressPage> {
                                               index % buttonState.length,
                                           rowIndex: (index / buttonState.length)
                                               .floor(),
-                                          child: StrokeButton(
-                                            duration: const Duration(
-                                                milliseconds: 1000),
-                                            value: buttonState[
-                                                    (index / buttonState.length)
-                                                        .floor()]
-                                                [index % buttonState.length],
-                                            onChanged: (value) {
-                                              onTapButton(index);
-                                            },
-                                            offsetForProjection: min(
-                                                50 / buttonState.length, 10),
-                                            child: Container(),
-                                            // child: Center(
-                                            //   child: Text(solution[index] == 1
-                                            //       ? "押す"
-                                            //       : "押さない"),
-                                            // ),
-                                            surfaceColor: ColorTween(
-                                                begin: Colors.black.stackOnTop(
-                                                    Colors.yellow
-                                                        .withOpacity(0.8)),
-                                                end: Colors.brown.shade700),
-                                          ),
+                                          child: buttonState.index(index) ==
+                                                  null
+                                              ? Container()
+                                              : StrokeButton(
+                                                  duration: const Duration(
+                                                      milliseconds: 1000),
+                                                  value: buttonState[
+                                                      (index /
+                                                              buttonState
+                                                                  .length)
+                                                          .floor()][index %
+                                                      buttonState.length]!,
+                                                  onChanged: (value) {
+                                                    onTapButton(index);
+                                                  },
+                                                  offsetForProjection: min(
+                                                      50 / buttonState.length,
+                                                      10),
+                                                  child: Container(),
+                                                  // child: Center(
+                                                  //   child: Text(solution[index] == 1
+                                                  //       ? "押す"
+                                                  //       : "押さない"),
+                                                  // ),
+                                                  surfaceColor: ColorTween(
+                                                      begin: Colors.black
+                                                          .stackOnTop(Colors
+                                                              .yellow
+                                                              .withOpacity(
+                                                                  0.8)),
+                                                      end: Colors
+                                                          .brown.shade700),
+                                                ),
                                         )),
                               )),
                         ),
