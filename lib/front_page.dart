@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:out_lights/fast_analytics.dart';
@@ -78,85 +80,88 @@ class _FrontPageState extends State<FrontPage> {
               ),
             ),
             Align(
-              alignment: Alignment.center,
+              alignment: Alignment.bottomCenter,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(
-                    flex: 6,
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "アウ[トラ]イツ",
-                            style: GoogleFonts.yuseiMagic(
-                                color: Colors.white, fontSize: 50),
-                            //style: TextStyle(color: Colors.white, fontSize: 50),
+                  SizedBox(
+                    width: 210,
+                    height: 90,
+                    child: StrokeButton(
+                        value: buttonStates[0],
+                        onChanged: (value) => onClickButton(0),
+                        offsetForProjection: 10,
+                        sideColor: Colors.blueGrey,
+                        surfaceColor:
+                            ColorTween(begin: Colors.amber, end: Colors.purple),
+                        child: const Center(
+                          child: Text(
+                            "Try",
+                            style: TextStyle(fontSize: 30),
                           ),
-                        ],
-                      ),
-                    ),
+                        )),
                   ),
-                  Expanded(
-                    flex: 4,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: 210,
-                          height: 90,
-                          child: StrokeButton(
-                              value: buttonStates[0],
-                              onChanged: (value) => onClickButton(0),
-                              offsetForProjection: 10,
-                              sideColor: Colors.blueGrey,
-                              surfaceColor: ColorTween(
-                                  begin: Colors.amber, end: Colors.purple),
-                              child: const Center(
-                                child: Text(
-                                  "Try",
-                                  style: TextStyle(fontSize: 30),
-                                ),
-                              )),
-                        ),
-                        SizedBox(
-                          width: 210,
-                          height: 90,
-                          child: StrokeButton(
-                              value: buttonStates[1],
-                              onChanged: (value) => onClickButton(1),
-                              offsetForProjection: 10,
-                              sideColor: Colors.blueGrey,
-                              surfaceColor: ColorTween(
-                                  begin: Colors.amber, end: Colors.purple),
-                              child: const Center(
-                                child: Text(
-                                  "Licenses",
-                                  style: TextStyle(fontSize: 30),
-                                ),
-                              )),
-                        ),
-                        SizedBox(
-                          width: 210,
-                          height: 90,
-                          child: StrokeButton(
-                              value: buttonStates[2],
-                              onChanged: (value) => onClickButton(2),
-                              offsetForProjection: 10,
-                              sideColor: Colors.blueGrey,
-                              surfaceColor: ColorTween(
-                                  begin: Colors.amber, end: Colors.purple),
-                              child: const Center(
-                                child: Text(
-                                  "Share",
-                                  style: TextStyle(fontSize: 30),
-                                ),
-                              )),
-                        ),
-                      ],
-                    ),
+                  SizedBox(
+                    width: 210,
+                    height: 90,
+                    child: StrokeButton(
+                        value: buttonStates[1],
+                        onChanged: (value) => onClickButton(1),
+                        offsetForProjection: 10,
+                        sideColor: Colors.blueGrey,
+                        surfaceColor:
+                            ColorTween(begin: Colors.amber, end: Colors.purple),
+                        child: const Center(
+                          child: Text(
+                            "Licenses",
+                            style: TextStyle(fontSize: 30),
+                          ),
+                        )),
+                  ),
+                  SizedBox(
+                    width: 210,
+                    height: 90,
+                    child: StrokeButton(
+                        value: buttonStates[2],
+                        onChanged: (value) => onClickButton(2),
+                        offsetForProjection: 10,
+                        sideColor: Colors.blueGrey,
+                        surfaceColor:
+                            ColorTween(begin: Colors.amber, end: Colors.purple),
+                        child: const Center(
+                          child: Text(
+                            "Share",
+                            style: TextStyle(fontSize: 30),
+                          ),
+                        )),
+                  ),
+                  const SizedBox(
+                    height: 30,
                   )
                 ],
               ),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: LayoutBuilder(builder: (context, constraints) {
+                final height = constraints.biggest.height - 300;
+                return SizedBox(
+                  height: max(height, 0),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "アウ[トラ]イツ",
+                          style: GoogleFonts.yuseiMagic(
+                              color: Colors.white, fontSize: 50),
+                          //style: TextStyle(color: Colors.white, fontSize: 50),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
             ),
           ],
         ),
