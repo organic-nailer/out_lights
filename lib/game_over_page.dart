@@ -83,235 +83,238 @@ class _GameOverPageState extends State<GameOverPage> {
         body: DefaultTextStyle.merge(
           style: GoogleFonts.oswald(),
           child: SafeArea(
-            child: Center(
-                child: SizedBox(
-              height: 592,
-              width: 400,
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 59,
-                    child: Text(
-                      "Happy New Year!",
-                      style: TextStyle(fontSize: 30),
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Center(
+                  child: SizedBox(
+                height: 592,
+                width: 400,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 59,
+                      child: Text(
+                        "Happy New Year!",
+                        style: TextStyle(fontSize: 30),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: ExpandedGrid(
-                      row: 4,
-                      column: 3,
-                      children: [
-                        ExpandedGridContent(
-                          rowIndex: 0,
-                          columnIndex: 0,
-                          columnSpan: 2,
-                          child: StrokeButton(
-                            value: buttonStates[0],
-                            onChanged: (_) => onClickButton(0),
-                            surfaceColor: ColorTween(
-                                begin: Colors.yellow.shade800,
-                                end: Colors.brown),
-                            child: const Center(
-                              child: Text(
-                                "Steps:",
-                                style: TextStyle(fontSize: 50),
+                    Expanded(
+                      child: ExpandedGrid(
+                        row: 4,
+                        column: 3,
+                        children: [
+                          ExpandedGridContent(
+                            rowIndex: 0,
+                            columnIndex: 0,
+                            columnSpan: 2,
+                            child: StrokeButton(
+                              value: buttonStates[0],
+                              onChanged: (_) => onClickButton(0),
+                              surfaceColor: ColorTween(
+                                  begin: Colors.yellow.shade800,
+                                  end: Colors.brown),
+                              child: const Center(
+                                child: Text(
+                                  "Steps:",
+                                  style: TextStyle(fontSize: 50),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        ExpandedGridContent(
-                          rowIndex: 0,
-                          columnIndex: 2,
-                          child: StrokeButton(
-                            value: buttonStates[1],
-                            onChanged: (_) => onClickButton(1),
-                            surfaceColor: ColorTween(
-                                begin: Colors.yellow.shade800,
-                                end: Colors.brown),
-                            child: Center(
-                              child: Text(
-                                widget.step.toString(),
-                                style: const TextStyle(fontSize: 30),
+                          ExpandedGridContent(
+                            rowIndex: 0,
+                            columnIndex: 2,
+                            child: StrokeButton(
+                              value: buttonStates[1],
+                              onChanged: (_) => onClickButton(1),
+                              surfaceColor: ColorTween(
+                                  begin: Colors.yellow.shade800,
+                                  end: Colors.brown),
+                              child: Center(
+                                child: Text(
+                                  widget.step.toString(),
+                                  style: const TextStyle(fontSize: 30),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        ExpandedGridContent(
-                          rowIndex: 1,
-                          columnIndex: 0,
-                          columnSpan: 2,
-                          child: StrokeButton(
-                            value: buttonStates[2],
-                            onChanged: (_) => onClickButton(2),
-                            surfaceColor: ColorTween(
-                                begin: Colors.yellow.shade800,
-                                end: Colors.brown),
-                            child: const Center(
-                              child: Text(
-                                "Score:",
-                                style: TextStyle(fontSize: 50),
+                          ExpandedGridContent(
+                            rowIndex: 1,
+                            columnIndex: 0,
+                            columnSpan: 2,
+                            child: StrokeButton(
+                              value: buttonStates[2],
+                              onChanged: (_) => onClickButton(2),
+                              surfaceColor: ColorTween(
+                                  begin: Colors.yellow.shade800,
+                                  end: Colors.brown),
+                              child: const Center(
+                                child: Text(
+                                  "Score:",
+                                  style: TextStyle(fontSize: 50),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        ExpandedGridContent(
-                          rowIndex: 1,
-                          columnIndex: 2,
-                          child: StrokeButton(
-                            value: buttonStates[3],
-                            onChanged: (_) => onClickButton(3),
-                            surfaceColor: ColorTween(
-                                begin: Colors.yellow.shade800,
-                                end: Colors.brown),
-                            child: Center(
-                              child: Text(
-                                widget.score.toString(),
-                                style: const TextStyle(fontSize: 30),
+                          ExpandedGridContent(
+                            rowIndex: 1,
+                            columnIndex: 2,
+                            child: StrokeButton(
+                              value: buttonStates[3],
+                              onChanged: (_) => onClickButton(3),
+                              surfaceColor: ColorTween(
+                                  begin: Colors.yellow.shade800,
+                                  end: Colors.brown),
+                              child: Center(
+                                child: Text(
+                                  widget.score.toString(),
+                                  style: const TextStyle(fontSize: 30),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        ExpandedGridContent(
-                          rowIndex: 2,
-                          columnIndex: 0,
-                          child: StrokeButton(
-                            value: buttonStates[4],
-                            onChanged: (_) => onClickButton(4),
-                            surfaceColor: ColorTween(
-                                begin: Colors.yellow.shade800,
-                                end: Colors.brown),
-                            child: const Center(
-                                child: Icon(Icons.refresh, size: 50)),
-                          ),
-                        ),
-                        ExpandedGridContent(
-                          rowIndex: 2,
-                          columnIndex: 1,
-                          child: StrokeButton(
-                            value: buttonStates[5],
-                            onChanged: (_) => onClickButton(5),
-                            surfaceColor: ColorTween(
-                                begin: Colors.yellow.shade800,
-                                end: Colors.brown),
-                            child: const Center(
-                                child: Icon(Icons.share, size: 50)),
-                          ),
-                        ),
-                        ExpandedGridContent(
-                          rowIndex: 2,
-                          columnIndex: 2,
-                          child: StrokeButton(
-                            value: buttonStates[6],
-                            onChanged: (_) => onClickButton(6),
-                            surfaceColor: ColorTween(
-                                begin: Colors.yellow.shade800,
-                                end: Colors.brown),
-                            child: const Center(
-                                child: Icon(
-                              Icons.home,
-                              size: 50,
-                            )),
-                          ),
-                        ),
-                        ExpandedGridContent(
-                          rowIndex: 3,
-                          columnIndex: 0,
-                          child: StrokeButton(
-                            value: buttonStates[7],
-                            onChanged: (_) => onClickButton(7),
-                            surfaceColor: ColorTween(
-                              begin: const Color(0xFF60807E),
-                              end: const Color(0xFF60807E),
+                          ExpandedGridContent(
+                            rowIndex: 2,
+                            columnIndex: 0,
+                            child: StrokeButton(
+                              value: buttonStates[4],
+                              onChanged: (_) => onClickButton(4),
+                              surfaceColor: ColorTween(
+                                  begin: Colors.yellow.shade800,
+                                  end: Colors.brown),
+                              child: const Center(
+                                  child: Icon(Icons.refresh, size: 50)),
                             ),
-                            child: Image.asset("image/fastriver.png"),
                           ),
-                        ),
-                        ExpandedGridContent(
-                          rowIndex: 3,
-                          columnIndex: 1,
-                          child: StrokeButton(
-                            value: buttonStates[8],
-                            onChanged: (_) => onClickButton(8),
-                            surfaceColor: ColorTween(
-                                begin: Colors.white, end: Colors.black),
-                            child: Image.asset("image/cheese.png"),
+                          ExpandedGridContent(
+                            rowIndex: 2,
+                            columnIndex: 1,
+                            child: StrokeButton(
+                              value: buttonStates[5],
+                              onChanged: (_) => onClickButton(5),
+                              surfaceColor: ColorTween(
+                                  begin: Colors.yellow.shade800,
+                                  end: Colors.brown),
+                              child: const Center(
+                                  child: Icon(Icons.share, size: 50)),
+                            ),
                           ),
-                        ),
-                        ExpandedGridContent(
-                          rowIndex: 3,
-                          columnIndex: 2,
-                          child: StrokeButton(
-                            value: buttonStates[9],
-                            onChanged: (_) => onClickButton(9),
-                            surfaceColor: ColorTween(
-                                begin: Colors.green.shade800,
-                                end: Colors.green.shade800),
-                            child: Image.asset("image/p987.png"),
+                          ExpandedGridContent(
+                            rowIndex: 2,
+                            columnIndex: 2,
+                            child: StrokeButton(
+                              value: buttonStates[6],
+                              onChanged: (_) => onClickButton(6),
+                              surfaceColor: ColorTween(
+                                  begin: Colors.yellow.shade800,
+                                  end: Colors.brown),
+                              child: const Center(
+                                  child: Icon(
+                                Icons.home,
+                                size: 50,
+                              )),
+                            ),
                           ),
-                        ),
-                      ],
+                          ExpandedGridContent(
+                            rowIndex: 3,
+                            columnIndex: 0,
+                            child: StrokeButton(
+                              value: buttonStates[7],
+                              onChanged: (_) => onClickButton(7),
+                              surfaceColor: ColorTween(
+                                begin: const Color(0xFF60807E),
+                                end: const Color(0xFF60807E),
+                              ),
+                              child: Image.asset("image/fastriver.png"),
+                            ),
+                          ),
+                          ExpandedGridContent(
+                            rowIndex: 3,
+                            columnIndex: 1,
+                            child: StrokeButton(
+                              value: buttonStates[8],
+                              onChanged: (_) => onClickButton(8),
+                              surfaceColor: ColorTween(
+                                  begin: Colors.white, end: Colors.black),
+                              child: Image.asset("image/cheese.png"),
+                            ),
+                          ),
+                          ExpandedGridContent(
+                            rowIndex: 3,
+                            columnIndex: 2,
+                            child: StrokeButton(
+                              value: buttonStates[9],
+                              onChanged: (_) => onClickButton(9),
+                              surfaceColor: ColorTween(
+                                  begin: Colors.green.shade800,
+                                  end: Colors.green.shade800),
+                              child: Image.asset("image/p987.png"),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              // child: StrokeButton(
-              //   surfaceColor:
-              //       ColorTween(begin: Colors.yellow.shade800, end: Colors.brown),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.stretch,
-              //     children: [
-              //       Expanded(
-              //         child: Center(
-              //             child: Column(
-              //           mainAxisSize: MainAxisSize.min,
-              //           children: [
-              //             const Padding(
-              //               padding: EdgeInsets.all(16.0),
-              //               child: Text(
-              //                 "Happy New Year!",
-              //                 style: TextStyle(fontSize: 30),
-              //               ),
-              //             ),
-              //             Text(
-              //               "Steps: ${widget.step}",
-              //               style: const TextStyle(fontSize: 20),
-              //             ),
-              //             Text(
-              //               "Score: ${widget.score}",
-              //               style: const TextStyle(fontSize: 40),
-              //             ),
-              //           ],
-              //         )),
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.all(16.0),
-              //         child: Row(
-              //           mainAxisSize: MainAxisSize.max,
-              //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //           children: [
-              //             IconButton(
-              //                 onPressed: () {
-              //                   Navigator.of(context).pushReplacement(
-              //                       MaterialPageRoute(
-              //                           builder: (_) => const TryEndressPage()));
-              //                 },
-              //                 icon: const Icon(Icons.refresh)),
-              //             IconButton(
-              //                 onPressed: () {}, icon: const Icon(Icons.share)),
-              //             IconButton(
-              //                 onPressed: () {
-              //                   Navigator.of(context).pushReplacement(
-              //                       MaterialPageRoute(
-              //                           builder: (_) => const FrontPage()));
-              //                 },
-              //                 icon: const Icon(Icons.home)),
-              //           ],
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // ),
-            )),
+                  ],
+                ),
+                // child: StrokeButton(
+                //   surfaceColor:
+                //       ColorTween(begin: Colors.yellow.shade800, end: Colors.brown),
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.stretch,
+                //     children: [
+                //       Expanded(
+                //         child: Center(
+                //             child: Column(
+                //           mainAxisSize: MainAxisSize.min,
+                //           children: [
+                //             const Padding(
+                //               padding: EdgeInsets.all(16.0),
+                //               child: Text(
+                //                 "Happy New Year!",
+                //                 style: TextStyle(fontSize: 30),
+                //               ),
+                //             ),
+                //             Text(
+                //               "Steps: ${widget.step}",
+                //               style: const TextStyle(fontSize: 20),
+                //             ),
+                //             Text(
+                //               "Score: ${widget.score}",
+                //               style: const TextStyle(fontSize: 40),
+                //             ),
+                //           ],
+                //         )),
+                //       ),
+                //       Padding(
+                //         padding: const EdgeInsets.all(16.0),
+                //         child: Row(
+                //           mainAxisSize: MainAxisSize.max,
+                //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //           children: [
+                //             IconButton(
+                //                 onPressed: () {
+                //                   Navigator.of(context).pushReplacement(
+                //                       MaterialPageRoute(
+                //                           builder: (_) => const TryEndressPage()));
+                //                 },
+                //                 icon: const Icon(Icons.refresh)),
+                //             IconButton(
+                //                 onPressed: () {}, icon: const Icon(Icons.share)),
+                //             IconButton(
+                //                 onPressed: () {
+                //                   Navigator.of(context).pushReplacement(
+                //                       MaterialPageRoute(
+                //                           builder: (_) => const FrontPage()));
+                //                 },
+                //                 icon: const Icon(Icons.home)),
+                //           ],
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+              )),
+            ),
           ),
         ),
       ),
