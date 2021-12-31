@@ -336,6 +336,6 @@ void openUrl(String url) async {
 
 void tweetScore(int step, int score) async {
   var url =
-      "https://twitter.com/intent/tweet?text=%E3%82%A2%E3%82%A6%5B%E3%83%88%E3%83%A9%5D%E3%82%A4%E3%83%84(2022)%E3%81%A7%E3%82%B9%E3%82%B3%E3%82%A2%E3%82%92$score(${step}steps)%E7%8D%B2%E5%BE%97%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F%EF%BC%81%0Ahttps%3A%2F%2Ftora.fastriver.dev";
+      "https://twitter.com/intent/tweet?text=%E3%82%A2%E3%82%A6%5B%E3%83%88%E3%83%A9%5D%E3%82%A4%E3%83%84(2022)%E3%81%A7%E3%82%B9%E3%82%B3%E3%82%A2%E3%82%92$score(${step}steps)%E7%8D%B2%E5%BE%97%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F%EF%BC%81%0Ahttps%3A%2F%2Ftora.fastriver.dev%2F%23%2F%0A";
   openUrl(url);
 }

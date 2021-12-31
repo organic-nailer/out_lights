@@ -44,7 +44,7 @@ class _FrontPageState extends State<FrontPage> {
             break;
           case 2:
             openUrl(
-                "https://twitter.com/intent/tweet?text=%E3%82%A2%E3%82%A6%5B%E3%83%88%E3%83%A9%5D%E3%82%A4%E3%83%84(2022)%0Afrom%20%40fastriver_org%0Ahttps%3A%2F%2Ftora.fastriver.dev");
+                "https://twitter.com/intent/tweet?text=%E3%82%A2%E3%82%A6%5B%E3%83%88%E3%83%A9%5D%E3%82%A4%E3%83%84(2022)%0Afrom%20%40fastriver_org%0Ahttps%3A%2F%2Ftora.fastriver.dev%2F%23%2F");
             break;
         }
       });
