@@ -25,7 +25,7 @@ class _TryEndlessPageState extends State<TryEndlessPage> {
   TableData<bool?> buttonState = [];
   QuestionData? question;
   int remMs = 0;
-  int step = 11;
+  int step = 1;
   int score = 0;
   int tapped = 0;
   bool lock = false;
