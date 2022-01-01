@@ -25,7 +25,7 @@ class _TryEndlessPageState extends State<TryEndlessPage> {
   TableData<bool?> buttonState = [];
   QuestionData? question;
   int remMs = 0;
-  int step = 1;
+  int step = 11;
   int score = 0;
   int tapped = 0;
   bool lock = false;
@@ -115,7 +115,9 @@ class _TryEndlessPageState extends State<TryEndlessPage> {
             y >= buttonState.length) {
           continue;
         }
-        buttonState[y][x] = !buttonState[y][x]!;
+        if (buttonState[y][x] != null) {
+          buttonState[y][x] = !buttonState[y][x]!;
+        }
       }
     });
     // すべて凸の場合
